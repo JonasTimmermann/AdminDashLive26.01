@@ -1,0 +1,619 @@
+
+<!-- Pop-Up Fenster für das Erstellen einer Frage -->
+<ng-template  #contentCreate let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Frage erstellen</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="getAllQuestion(); modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <form>
+                                <div class="form-group">
+                                        <div class="row" style=" font-size:22pt;font-weight: bold;">
+                                                <div class="col">
+                                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Frage:  </h2>
+                                                        <input style=" float: left;max-width: 320px;" type="text" [(ngModel)]="question.question" name="frageID" class="form-control" id="frageid" aria-describedby="emailHelp" placeholder="Frage eingeben">
+                                                        <br> 
+                                                        <br>
+                                                 </div>
+                                                <div class="col">
+                                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word;color:rgb(0, 0, 0);" for="exampleInputEmail2">Anmeldungs/Formular-Art:</h2>
+                                                        <select  style=" float: left;max-width: 320px;" class="form-control" [(ngModel)]="question.formType" name="typKat" placeholder="question.formType">  
+                                                                <option *ngFor="let a of formularTypMoeglichkeiten" [ngValue]="a" >{{a}}</option>
+                                                        </select>
+                                                        <br> 
+                                                        <br> 
+                                                </div>
+
+                                                <div class="w-100"></div>
+
+                                                <!--
+                                                <div class="col">
+                                                        <h2 for="exampleInputEmail2" style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Vorrausgesetzte Frage: </h2>
+                                                        <select  style=" float: left;max-width: 320px;" class="form-control" [(ngModel)]="question.lookbackId"  name="typ">  
+                                                                <option *ngFor="let a of hashIdQuestion" [ngValue]="a.key" >{{a.value}}</option>
+                                                        </select>
+                                                        <br>
+                                                        <br>
+                                                </div>
+                                                 -->
+
+                                                <div class="col">
+                                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Pflichtfrage?</h2>    
+                                                        <label class="switch" >
+                                                                <input checked type="checkbox" id="togBtn"  (click)="changeMandatory($event)" />
+                                                        <div class="slider round"></div></label> 
+                                                        <br>
+                                                        <br>
+                                                        <!--<label>{{question.mandatory}}</label>-->
+                                                </div>
+                                                <div class="col">
+                                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word" >Hinweis zur Frage:</h2>    
+                                                        <textarea rows="4" cols="50"  style=" float: left;max-width: 320px;" type="text" [(ngModel)]="question.hint" name="hinweisID" class="form-control" id="hinweis" aria-describedby="emailHelp" placeholder="Hinweis eingeben"></textarea>
+                                                        <br>
+                                                        <br>
+                                                </div>
+
+
+
+                                                <div class="w-100"></div>
+                                                <br>
+                                                <div class="col">
+                                                        <h2 for="exampleInputEmail2" style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Antwort-Typ: </h2>
+                                                        <select style=" float: left;max-width: 320px;" class="form-control" [(ngModel)]="question.questionType.type" (change)=" toggleEdit()" name="typ">  
+                                                                <option *ngFor="let a of antwortMoeglichkeiten" [ngValue]="a.key" >{{a.name}}</option>
+                                                        </select>
+                                                        <br>
+                                                </div>
+                                                <div class="col">
+                                                        <h2 style="color:rgb(0, 0, 0);" ><u>Kategorie: </u></h2>
+                                                        <div style="padding:10px 00px 00px 00px">      
+                                                                <div *ngFor="let date of fakeCategoryArray; let index = index ">      
+                                                                        <!--{{index + 1}}:     -->
+                                                                        
+                                                                        
+                                                                        <select style=" float: center;max-width: 320px;" class="form-control" [(ngModel)]="categoryArrayOp1" (change)=" toggleCat()" name="typ">  
+                                                                                <option *ngFor="let a of dataSetCat" [ngValue]="a" >{{a}}</option>
+                                                                        </select>
+                                                                        <br>
+                                                                        <h6 *ngIf="newCatOn" for="exampleInputEmail2" style="font-size: 16px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Neue Kategorie</h6>
+                                                                        <input *ngIf="newCatOn"  style=" float: center;max-width: 320px;" type="text" [(ngModel)]="categoryArrayOp2" name="catOpID{{index}}" class="form-control" id="catOp{{index}}" aria-describedby="emailHelp" placeholder="Kategorie:{{index}}">
+                                                                </div>
+                                                                <!--
+                                                                <button class="btn btn-success" (click)="addInputCat()" >+</button>
+                                                                <button class="btn btn-danger" (click)="deleteInputCat()" >-</button>
+                                                                -->
+                                                        </div>
+                                                </div>   
+                                               <!-- <div class="col">
+                                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word" >Hinweis zur Frage:</h2>    
+                                                        <textarea rows="4" cols="50"  style=" float: left;max-width: 320px;" type="text" [(ngModel)]="question.hint" name="hinweisID" class="form-control" id="hinweis" aria-describedby="emailHelp" placeholder="Hinweis eingeben"></textarea>
+                                                        <br>
+                                                </div>
+                                        -->
+
+                                                <div class="w-100"></div>
+                                                <br>
+                                                <div class="col">    
+                                                
+                                                        <div *ngIf="radioOn || CheckOn || dropdownOn"  >
+                                                                <h2 style="color:rgb(0, 0, 0);"><u>Antwort-Optionen:</u><br/></h2> 
+                                                                <div style="padding:10px 80px 00px 00px " >
+                                                                        <div *ngFor="let daten of fakeChoiceArray; let index = index ">
+                                                                                <label style="color:rgb(0, 0, 0);">{{index +1}}:</label> 
+                                                                                <input style=" float: right;max-width: 320px;" type="text" [(ngModel)]="choiceArray[index].choice" name="antOpID{{index}}" class="form-control" id="antOp{{index}}" aria-describedby="emailHelp" placeholder="Antwort-Option:{{index}}">
+                                                                        </div>
+                                                                        <button class="btn btn-success" (click)="addInput()" >+</button>
+                                                                        <button class="btn btn-danger" (click)="deleteInput()" >-</button>
+                                                                </div>      
+                                                        </div>        
+                                                </div>
+                                                <div class="col">      
+
+                                                </div>
+                                               <!-- <div class="col">
+                                                        <h2 style="color:rgb(0, 0, 0);" ><u>Kategorie: </u></h2>
+                                                        <div style="padding:10px 00px 00px 00px">      
+                                                                <div *ngFor="let date of fakeCategoryArray; let index = index ">      
+                                                                        
+                                                                        
+                                                                        
+                                                                        <select style=" float: center;max-width: 320px;" class="form-control" [(ngModel)]="categoryArrayOp1" (change)=" toggleCat()" name="typ">  
+                                                                                <option *ngFor="let a of dataSetCat" [ngValue]="a" >{{a}}</option>
+                                                                        </select>
+
+                                                                        <input *ngIf="newCatOn"  style=" float: center;max-width: 320px;" type="text" [(ngModel)]="categoryArrayOp2" name="catOpID{{index}}" class="form-control" id="catOp{{index}}" aria-describedby="emailHelp" placeholder="Kategorie:{{index}}">
+                                                                </div>
+                                                                
+                                                        </div>
+                                                </div>     
+                                        -->
+                                                <!--  <div class="col">
+                                                        <h2 style="color:rgb(0, 0, 0);" ><u>Kategorie: </u></h2>
+                                                        <div style="padding:10px 00px 00px 00px">      
+                                                                <div *ngFor="let date of fakeCategoryArray; let index = index ">      
+                                                                        {{index + 1}}:     
+                                                                        <input style=" float: right;" type="text" [(ngModel)]="categoryArray[index].category" name="catOpID{{index}}" class="form-control" id="catOp{{index}}" aria-describedby="emailHelp" placeholder="Kategorie:{{index}}">
+                                                                </div>
+                                                                <button class="btn btn-success" (click)="addInputCat()" >+</button>
+                                                                <button class="btn btn-danger" (click)="deleteInputCat()" >-</button>
+                                                        </div>
+                                                </div>   -->          
+                                        </div>
+                                         <br>
+                                </div>
+                        </form>
+                </div>
+                <div class="modal-footer">
+                        <button class="btn btn-danger" (click)="getAllQuestion(); modal.close()" >Abbrechen</button>
+                        <button [disabled]="allFilled()" type="button" class="btn btn-success" (click)="createQuestion(); modal.dismiss()">Erstellen</button>
+                </div>
+        </ng-template>
+<!--______________________________________________________________________________________________________________________________-->
+
+
+
+
+
+<!-- Pop-Up Fenster für das Editieren einer Frage -->
+<ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Frage editieren</h4>
+          <button type="button" class="close" aria-label="Close" (click)="getAllQuestion(); modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <form>
+                        <div class="form-group">
+                                <div class="row" style=" font-size:22pt;font-weight: bold;">
+                                        <div class="col">
+                                                <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Frage:  </h2>
+                                                <input style=" float: left;max-width: 320px;" type="text" [(ngModel)]="question.question" name="frageID" class="form-control" id="frageid" aria-describedby="emailHelp" placeholder="question.question">
+                                                <br> 
+                                                <br>
+                                         </div>
+                                        <div class="col">
+                                                <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);" for="exampleInputEmail2">Anmeldungs/Formular-Art:</h2>     
+                                                <select style=" float: left;max-width: 320px;" class="form-control" [(ngModel)]="question.formType" name="typKat" placeholder="question.formType">  
+                                                        <option *ngFor="let a of formularTypMoeglichkeiten" [ngValue]="a" >{{a}}</option>
+                                                </select>
+                                                <br> 
+                                                <br>         
+                                        </div>
+                                        <div class="w-100"></div>
+        
+                                <!--        <div class="col">
+                                                <h2 for="exampleInputEmail2" style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Vorrausgesetzte Frage: </h2>
+                                                <select  style=" float: left;max-width: 320px;" class="form-control" [(ngModel)]="question.lookbackId"  name="typvf" placeholder="question.lookbackId">  
+                                                        <option *ngFor="let a of hashIdQuestion" [ngValue]="a.key" >{{a.value}}</option>
+                                                </select>
+                                                <br>
+                                                <br>
+                                        </div>
+                                -->
+                                        <div class="col">
+                                                <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Pflichtfrage?</h2>    
+                                                <!--<input type="checkbox" class="form-check-input" id="exampleCheck1" (click)="changeMandatory($event)">JA-
+                                                <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                                                        <label  style="padding:00px 00px 00px 10px; font-size: 16px;" class="onoffswitch-label" for="myonoffswitch">Ja</label>
+                             
+                                                    </div>-->
+                                        <div *ngIf="mandatoryOn">
+                                                <label class="switch" >
+                                                        <input  checked type="checkbox" id="togBtn"  (click)="changeMandatory($event)" />     
+                                              <div class="slider round"></div></label> 
+                                        </div>
+                                        <div *ngIf="!mandatoryOn">
+                                                <label class="switch" > 
+                                                        <input  type="checkbox" id="togBtn"  (click)="changeMandatory($event)" />
+                                                <div class="slider round"></div></label> 
+                                        </div>
+                                                  <!--  <label class="switch"><input type="checkbox" id="togBtn" (click)="changeMandatory($event)"><div class="slider round"></div></label>
+                                                <label style="font-size: 20px; float: left;" class="form-check-label" for="exampleCheck1">Ja</label>-->
+                                                <br>
+                                                <!--<label>{{question.mandatory}}</label>-->
+                                        </div>
+
+                                        <div class="col">
+                                                <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Hinweis zur Frage:</h2>    
+                                                <textarea rows="4" cols="50" style=" float: left;max-width: 320px;" type="text" [(ngModel)]="question.hint" name="hinweisID" class="form-control" id="hinweis" aria-describedby="emailHelp" placeholder="Hinweis eingeben"></textarea>
+                                                <br>
+                                        </div>
+
+
+
+                                        <div class="w-100"></div>
+                                        <div class="col">
+                                                <h2 for="exampleInputEmail2" style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Antwort-Typ: </h2>
+                                                <select  style=" float: left;max-width: 320px;" class="form-control" [(ngModel)]="question.questionType.type" (change)=" toggleEdit()" name="typatyp" placeholder="question.questionType.type">  
+                                                        <option *ngFor="let a of antwortMoeglichkeiten" [ngValue]="a.key" >{{a.name}}</option>
+                                                </select>
+                                                <br>
+                                        </div>
+                                        <!--<div class="col">
+                                                <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Hinweis zur Frage:</h2>    
+                                                <textarea rows="4" cols="50" style=" float: left;max-width: 320px;" type="text" [(ngModel)]="question.hint" name="hinweisID" class="form-control" id="hinweis" aria-describedby="emailHelp" placeholder="Hinweis eingeben"></textarea>
+                                                <br>
+                                        </div>-->
+                                        <div class="col">
+                                                <h2 style="color:rgb(0, 0, 0);" ><u>Kategorie: </u></h2>
+                                                <div style="padding:10px 00px 00px 00px">      
+                                                        <div *ngFor="let date of fakeCategoryArray; let index = index ">      
+                                                                <!--{{index + 1}}:     -->
+                                                                
+                                                               
+                                                                <select style=" float: center;max-width: 320px;" class="form-control" [(ngModel)]="categoryArrayOp1" (change)=" toggleCat()" name="typ" placeholder="categoryArrayOp1">  
+                                                                        <option *ngFor="let a of dataSetCat" [ngValue]="a" >{{a}}</option>
+                                                                </select>
+
+                                                                <input *ngIf="newCatOn"  style=" float: center;max-width: 320px;" type="text" [(ngModel)]="categoryArrayOp2" name="catOpID{{index}}" class="form-control" id="catOp{{index}}" aria-describedby="emailHelp" placeholder="Kategorie:{{index}}">
+                                                        </div>
+                                                        <!--
+                                                        <button class="btn btn-success" (click)="addInputCat()" >+</button>
+                                                        <button class="btn btn-danger" (click)="deleteInputCat()" >-</button>
+                                                        -->
+                                                </div>
+                                        </div> 
+
+                                        <div class="w-100"></div>
+                                        <br>
+                                        <div class="col">
+                                                
+                                                <div *ngIf="radioOn || CheckOn || dropdownOn"  >
+                                                        <h2 style="color:rgb(0, 0, 0);"><u>Antwort-Optionen:</u><br/></h2> 
+                                                        <div style="padding:10px 80px 00px 00px " >
+                                                                <div *ngFor="let daten of fakeChoiceArray; let index = index ">
+                                                                        <label style="color:rgb(0, 0, 0);">{{index +1}}:</label> 
+                                                                        <input style=" float: right;max-width: 320px;" type="text" [(ngModel)]="choiceArray[index].choice" name="antOpID{{index}}" class="form-control" id="antOp{{index}}" aria-describedby="emailHelp" placeholder="Antwort-Option:{{index}}">
+                                                                </div>
+                                                                <button class="btn btn-success" (click)="addInput()" >+</button>
+                                                                <button class="btn btn-danger" (click)="deleteInput()" >-</button>
+                                                        </div>      
+                                                </div>        
+                                        </div>
+                                        <div class="col">      
+                                                        
+                                        </div>
+                                        <!--
+                                        <div class="col">
+                                                <div style="padding:10px 00px 00px 00px " *ngIf="radioOn || CheckOn || dropdownOn"  >
+                                                         <h2 style="color:rgb(0, 0, 0);"><u>Antwort-Optionen:</u><br/></h2> 
+                                                        <div *ngFor="let daten of fakeChoiceArray; let index = index ">
+                                                                <label style="color:rgb(0, 0, 0);">{{index +1}}:</label> 
+                                                                <input style=" float: right;" type="text" [(ngModel)]="choiceArray[index].choice" name="antOpID{{index}}" class="form-control" id="antOp{{index}}" aria-describedby="emailHelp" placeholder="Antwort-Option:{{index}}">                   
+                                                        </div>
+                                                        <button class="btn btn-success" (click)="addInput()" >+</button>
+                                                        <button class="btn btn-danger" (click)="deleteInput()" >-</button>     
+                                                </div>        
+                                        </div>-->
+                                       <!-- <div class="col">
+                                                <h2 style="color:rgb(0, 0, 0);" ><u>Kategorie: </u></h2>
+                                                <div style="padding:10px 00px 00px 00px">      
+                                                        <div *ngFor="let date of fakeCategoryArray; let index = index ">      
+                                                               
+                                                                
+                                                               
+                                                                <select style=" float: center;max-width: 320px;" class="form-control" [(ngModel)]="categoryArrayOp1" (change)=" toggleCat()" name="typ" placeholder="categoryArrayOp1">  
+                                                                        <option *ngFor="let a of dataSetCat" [ngValue]="a" >{{a}}</option>
+                                                                </select>
+
+                                                                <input *ngIf="newCatOn"  style=" float: center;max-width: 320px;" type="text" [(ngModel)]="categoryArrayOp2" name="catOpID{{index}}" class="form-control" id="catOp{{index}}" aria-describedby="emailHelp" placeholder="Kategorie:{{index}}">
+                                                        </div>
+                                                       
+                                                </div>
+                                        </div>  -->           
+                                </div>
+				<br>
+                        </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn-danger" (click)="getAllQuestion(); modal.close()" >Abbrechen</button>
+                <button type="button" [disabled]="allFilled()" class="btn btn-success" (click)="editQuestion(); modal.dismiss()">Save</button>
+        </div>
+</ng-template>
+
+<!--______________________________________________________________________________________________________________________________-->
+
+
+
+
+
+
+
+<!-- Pop-Up Fenster für das Hinzufügen/Editieren der NextQuestions einer Frage -->
+<ng-template #content2 let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Folgefragen auswählen</h4>
+          <button type="button" class="close" aria-label="Close" (click)="getAllQuestion(); modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <form>
+                        <div class="form-group">
+                                <label style="color:rgb(0, 0, 0);font-size: 20px;padding:20px 10px 20px 0px;"><b style="font-size: 28px;"><u>Frage:</u></b><br/><br> {{question.question}} </label>
+                                <div  *ngIf="CheckOn || TextOn || datumOn || dateiUploadOn || multiTextOn || radioOn || dropdownOn">
+                                        <br>
+                                        <br>
+                                        <h2 style="color:rgb(0, 0, 0);" for="exampleInputEmail2"><u>Folgefrage: </u></h2>
+                                        <select class="form-control" [(ngModel)]="question.questionType.defaultWay" name="typ">  
+                                                <option *ngFor="let a of hashIdQuestion" [ngValue]="a.key" >{{a.value}}</option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                </div>
+                                <br>
+                                <br>
+                                <br>             
+                <div  *ngIf="radioOn || CheckOn  || dropdownOn" >
+
+                        <h2 for="exampleInputEmail2" style="color:rgb(0, 0, 0);"><u>Folgefragen: </u></h2>    
+                        <br>            
+                        <div class="row" style=" font-size:22pt;font-weight: bold;padding:0px 10px 0px 0px;" *ngFor="let i of fakeChoiceArray; let index = index; let l = count;">
+                                <div *ngIf="2*index < l;else other_content" class="col" >
+                                        <label style="font-size: 28px;max-width: 200px; word-wrap: break-word">{{choiceArray[2*index].choice}}</label><br>
+                                        <select style=" float: left;max-width: 200px;" class="form-control" [(ngModel)]="choiceArray[2*index].nextQuestionId" id="choiceID{{2*index}}" name="place{{2*index}}">  
+                                                <option *ngFor="let a of hashIdQuestion; let in = index"  [ngValue]="a.key" >{{ a.value }}</option>
+                                        </select>
+                                </div>
+                                <div *ngIf="2*index+1 < l;else other_content" class="col" >
+                                        <label style="font-size: 28px;max-width: 200px; word-wrap: break-word">{{choiceArray[2*index+1].choice}}</label><br>
+                                        <select style=" float: left; max-width: 200px ;" class="form-control" [(ngModel)]="choiceArray[2*index+1].nextQuestionId" id="choiceID{{2*index+1}}" name="place{{2*index+1}}">  
+                                                <option *ngFor="let a of hashIdQuestion; let in = index"  [ngValue]="a.key" >{{ a.value }}</option>
+                                        </select>   
+                                </div>  
+                                <ng-template #other_content></ng-template>
+                        <br>
+                        </div>
+                </div>        
+                <br>
+                <br>
+                </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn-danger" (click)="getAllQuestion(); modal.close()" >Abbrechen</button>
+                <button type="button" class="btn btn-success" (click)="editQuestionNextQuestionId();  modal.dismiss()">Save</button>
+        </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+<!-- Pop-Up zum Einfügen eines längeren Hinweistextes am Anfang des Formulars -->
+<ng-template #contentStart let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Formular-Hinweistext eingeben</h4>
+          <button type="button" class="close" aria-label="Close" (click)="getAllQuestion(); modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <form>
+                        <div class="form-group">
+        
+                                
+                            
+                                <br>   
+
+                                <div class="col">
+                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Text:</h2>    
+                                        <textarea rows="12" cols="80" style=" float: left;max-width: 820px;" type="text" [(ngModel)]="startHintText" name="hinweisID3" class="form-control" id="hinweis3" aria-describedby="emailHelp" placeholder="startHintText"></textarea>
+                                        <br>
+                                </div>        
+              
+                        <br>
+                        <br>
+                        </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn-danger" (click)="getAllQuestion(); modal.close()" >Abbrechen</button>
+                <button type="button" class="btn btn-success" (click)="setStart();  modal.dismiss()">Speichern</button>
+        </div>
+</ng-template>
+
+
+
+
+
+<ng-template #contentAddForm let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Formular-Namen eingeben</h4>
+          <button type="button" class="close" aria-label="Close" (click)="getAllQuestion(); modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <form>
+                        <div class="form-group">
+                                <br>
+                                <br>   
+
+                                <div class="col">
+                                        <h2 style="font-size: 28px;max-width: 380px; word-wrap: break-word; color:rgb(0, 0, 0);">Name</h2>    
+                                        <input  style=" float: left;max-width: 320px;" type="text" [(ngModel)]="addNewForm" name="hinweisID5" class="form-control" id="hinweis4" aria-describedby="emailHelp" placeholder="Formularname">
+                                        <br>
+                                </div>        
+              
+                        
+                        <br>
+                        </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn-danger" (click)="getAllQuestion(); modal.close()" >Abbrechen</button>
+                <button type="button" class="btn btn-success" (click)="addForm();  modal.dismiss()">Speichern</button>
+        </div>
+</ng-template>
+
+
+
+
+
+      
+
+<ng-template #tipContent>
+        AntwortTyp: <b>{{question.questionType.type}}</b> 
+        <br/> Formular-Art: <b>{{question.formType}}</b> <br/> Hinweis: 
+        <b>{{question.hint}} </b> <br/>
+        <div *ngIf="question.mandatory" >
+                Pflicht: <b>Ja</b>
+        </div>
+        <div *ngIf="!question.mandatory" >
+                Pflicht: <b>Nein</b>
+        </div>
+
+</ng-template>
+<!--______________________________________________________________________________________________________________________________-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Fragen-Übersicht/AdminDashboard -->
+<div style="background-color:rgb(255, 255, 255)"> 
+        <div class="row" style=" font-size:22pt;font-weight: bold;padding:0px 10px 0px 0px;">
+                <div class="col-sm" style="text-align:left">
+                        <img width="200" src="/assets/img/kielLogoTransparent.jpg"> 
+                </div>
+                <div class="col-sm" style="text-align:center">
+                        <h3><b>Admin-Dashboard</b></h3>
+                </div>
+                <div class="col-sm" style="text-align:right">  
+                        <button class="btn btn-success" style="padding: 10px 10px 10px 10px; margin: 10px 20px; font-size: 22px; font-weight: bold;" onClick="window.open('https://sondernutzungserlaubnis-antrag.web.app/')">Zum Formular</button> 
+                       <!-- <button class="btn btn-primary" style="padding: 10px 10px 10px 10px; margin: 10px 20px; font-size: 22px; font-weight: bold;" (click)="getHom();">Logout</button>-->
+                        <button *ngIf="isLoggedIn" class="btn btn-primary" style="padding: 10px 10px 10px 10px; margin: 10px 20px; font-size: 22px; font-weight: bold;" href="/logout" (click)=handleLogout()>Logout</button> 
+                        <button *ngIf="!isLoggedIn" class="btn btn-primary" style="padding: 10px 10px 10px 10px; margin: 10px 20px; font-size: 22px; font-weight: bold;" href="/logout" (click)=directToLogiin()>Login</button> 
+                </div>     
+        </div> 
+
+        
+     
+        <div *ngIf="!isLoggedIn" style="padding:200px 20px 10px 20px;text-align:center"> 
+                <h1><b>Bitte Einloggen</b></h1>
+                <div class="col-sm" style="text-align:center">
+                        <img width="320" src="/assets/img/schlossPic.jpg"> 
+                </div>
+        </div>
+</div>
+
+
+<div  *ngIf="isLoggedIn"  style="padding:10px 20px 10px 20px; background-color:rgb(226, 226, 226)" >
+        <div>
+                <div class="row" style=" padding:10px 20px 10px 00px;font-size:22pt;font-weight: bold;">
+                        <div class="col-sm" >
+                                Frage hinzufügen<br/>
+                                <button class="btn btn-success" style="padding: 8px 22px; margin: 0px 90px; font-size: 24px; font-weight: bold;" (click)="resetQuestion();open2(contentCreate);" >+</button>  <!--open2(contentCreate)-->
+                        </div>
+                        <div class="col-sm" >
+                                <h2>Formular
+                                <button class="btn btn-success" style="font-size: 16px; font-weight: bold;" (click)="openAddFormular(contentAddForm);" >+</button> </h2> 
+                                <select  class="form-control" (change)="changeCatOn()" [(ngModel)]="chosenFormTypeCat"  name="typ2" >  
+                                        <option *ngFor="let a of dataSet" [ngValue]="a" >{{a}}</option>
+                                </select>
+                        </div>
+                        <div class="col-sm" >  
+                                <h2>Kategorie</h2>
+                                <select (change)="getAllQuestionsOfFormTypeWithinCategory()" class="form-control" [(ngModel)]="chosenCategoryCat"  name="typ2">  
+                                        <option *ngFor="let a of dataSetCat" [ngValue]="a" >{{a}}</option>
+                                </select>
+                        </div>      
+                </div>
+        </div>
+        <br>
+        <div *ngIf="isLoggedIn" > <!-- class="container"-->
+                <div class="row" style="padding:10px 40px 10px 00px;font-size:22pt;font-weight: bold;">
+                        <div  class="col-sm">
+                                Frage
+                        </div>
+                        <div class="col-sm">
+                                Antwortmöglichkeiten
+                        </div>
+                        <div class="col-sm">  
+                                Darauffolgende Frage
+                        </div>      
+                </div>
+        </div>
+<div *ngIf="isLoggedIn" style="padding:10px 20px 10px 20px; background-color:rgb(190, 190, 190)">
+        <br>
+        <div style="padding:10px 10px 00px 10px;" *ngFor="let c of dataDisplay; let index = index"  (click)="loadQuestion(c)">
+        <div class="row" style="font-size:14pt;font-weight: bold;background-color:rgb(255, 255, 255);min-height: 100px;" (mouseenter)="showOnHover[index] = !showOnHover[index]" (mouseleave)="showOnHover[index] = !showOnHover[index]"> <!--border-radius: 18px">-->
+                <div class="col-sm vr" id="tabellenId" style="padding:10px 10px 10px 10px;">
+                            {{c.question}}
+                            <span *ngIf="startStatus(c)" class="badge badge-success">START</span>
+                            <button *ngIf="showOnHover[index]" style=" float: right;" id="myTip" class="btn btn-secondary" typ="button" (click)="loadQuestion(c)" triggers="click" [autoClose]="true" [ngbTooltip]="tipContent" >Info</button><br/>
+
+                        <div style="padding:20px 0px 0px 0px;" *ngIf="showOnHover[index]">
+                                <button  class="btn btn-success btn-space" (click)="loadQuestion(c);open2(content);" >Edit</button>
+                                <button  class="btn btn-primary btn-space" (click)="loadQuestion(c);open(content2);" >EditNext</button>
+                                <button  class="btn btn-danger btn-space" (click)="deleteQuestion(c.id)" >Delete</button>
+                                <button  class="btn btn-warning btn-space" (click)="loadQuestion(c);openStart(contentStart);">Set Startfrage</button>
+                                <!--<label>{{question.mandatory}}</label> -->
+                                <br/>
+                        </div>
+                </div>
+                <div class="col-sm vr nopadding" id="tabellenId">
+                        <div *ngIf="c.questionType.type=='checkBox' || c.questionType.type=='textInput' || c.questionType.type=='datumEingabe' || c.questionType.type=='datenInput' || c.questionType.type=='multiTextInput' || c.questionType.type=='radioButton' || c.questionType.type=='dropDown' ">- {{c.question}}<hr></div>
+                                <div *ngIf="c.questionType.type=='checkBox' || c.questionType.type=='radioButton' || c.questionType.type=='dropDown' ">
+                                        <ng-container *ngFor="let d of c.questionType.choices;let l = count; let index = index" >- {{d.choice}}<br/><hr *ngIf="index < l-1"></ng-container> <!--<div class="col-xs-12 col-sm-12 hidden-md hidden-lg hrspacing"><hr class="hrcolor"></div> -->
+                                </div>
+                        </div>
+                        <div class="col-sm vr nopadding" id="tabellenId">
+                                <div *ngIf="c.questionType.type=='checkBox' || c.questionType.type=='textInput' || c.questionType.type=='datumEingabe' || c.questionType.type=='datenInput' || c.questionType.type=='multiTextInput' || c.questionType.type=='radioButton' || c.questionType.type=='dropDown' ">- {{getQuestionByIdForFrontend(c.questionType.defaultWay)}}<hr></div>
+                                <div *ngIf="c.questionType.type=='checkBox' || c.questionType.type=='radioButton' || c.questionType.type=='dropDown' ">
+                                        <ng-container  *ngFor="let d of c.questionType.choices;let l = count; let index = index"  >- {{ getQuestionByIdForFrontend(d.nextQuestionId) }}<br/><hr *ngIf="index < l-1"></ng-container>
+                                </div>
+                        </div>
+                
+                </div>
+                <br>
+        </div>
+</div> 
+
+
+<!--<div *ngIf="!isLoggedIn" style="padding:10px 20px 10px 20px; background-color:rgb(190, 190, 190)">
+
+        <div class="col-sm" style="text-align:center">
+                <h3><b>Bitte Einloggen</b></h3>
+        </div>
+        <br>
+        <div *ngIf="!isLoggedIn" style="padding:20px 0px 290px 0px; background-color:rgb(177, 177, 177)" >
+                <div class="container col-lg-4" >
+                        <h3><b>Bitte Einloggen</b></h3>
+                        <button class="btn btn-primary" style="padding: 10px 10px 10px 10px; margin: 10px 20px; font-size: 22px; font-weight: bold;" href="/logout" (click)=directToLogiin()>Login</button> 
+                </div>
+        <div class="col-sm" style="text-align:center">  
+              
+                <button class="btn btn-primary" style="padding: 10px 10px 10px 10px; margin: 10px 20px; font-size: 22px; font-weight: bold;" href="/logout" (click)=directToLogiin()>Login</button> 
+        </div>  
+        </div>
+</div>-->

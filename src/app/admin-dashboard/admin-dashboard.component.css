@@ -1,0 +1,254 @@
+div.settings {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:5px;
+}
+div.settings label       { text-align:right; }
+div.settings h2       { text-align:right; }
+div.settings input       { width:800px; }
+div.settings label:after { content: ":"; }
+
+.sticky {
+    background: #fff;
+    box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+    position: fixed;
+    top: 0;
+    height: 120px;
+    width: 100%;
+}
+
+.sticky2 {
+    background: rgba(252, 0, 0, 0.678);
+    box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+    position: fixed;
+    top: 0;
+    height: 120px;
+    width: 100%;
+}
+
+
+
+.myCustomModalClass .modal-dialog {
+    max-width: 1490px !important;
+    min-width: 971px !important;   
+    width: 95% !important;
+  }
+
+
+  .dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+
+
+
+
+  input[type=text] {
+    width: 80%;     
+}
+input[type=number] {
+    width: 80%;     
+}
+select {
+    width: 80%;     
+}
+#tabellenId:hover {
+    
+    background-color: rgb(255, 169, 111);
+    background:  rgb(255, 169, 111);
+
+
+}
+#tabellenId {cursor: pointer;}
+
+
+.row:hover div[id="tabellenId"]{
+     background-color: rgb(255, 169, 111);
+}
+
+
+.btn-space {
+     margin-right: 10px;
+}       
+
+.vr {
+    border-right: 1px solid rgb(0, 0, 0) !important;
+}
+
+hr {
+display: block;
+height: 0.5px;
+border: 0;
+border-top: 1px solid rgb(0, 0, 0);
+margin: 1em 0;
+margin-top: 0.5em;
+margin-bottom: 0.5em;
+padding: 0px;
+}
+
+
+.vr-all {
+padding:0px;
+border-right:4px solid #CC0000;
+}
+.vr-xs {
+padding:0px;
+}
+.vr-md {
+padding:0px;
+}
+.hrspacing { padding:0px; }
+.hrcolor {
+border-color: #CC0000;
+border-style: solid;
+border-bottom: 4px;
+margin:0px;
+padding:0px;
+}
+
+
+.nopadding {
+padding: 0 !important;
+margin: 0 !important;
+}     
+
+
+
+
+
+
+
+/**
+
+
+
+.onoffswitch {
+  position: relative; width: 90px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  height: 30px; padding: 0; line-height: 30px;
+  border: 2px solid #999999; border-radius: 30px;
+  background-color: #CCCCCC;
+  transition: background-color 0.3s ease-in;
+  
+}
+.onoffswitch-label:before {
+  content: "";
+  display: block; width: 30px; margin: 0px;
+  background: #000000;
+  position: absolute; top: 0; bottom: 0;
+  right: 58px;
+  border: 2px solid #999999; border-radius: 30px;
+  transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+  background-color: rgb(62, 239, 46);
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+ border-color: rgb(62, 239, 46);
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+  right: 0px; 
+}
+
+**/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: .4s;
+  transition: .4s;
+   border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.slider:after
+{
+ content:'Nein';
+ color: white;
+ display: block;
+ position: absolute;
+ transform: translate(-50%,-50%);
+ top: 50%;
+ left: 50%;
+ font-size: 10px;
+ font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider:after
+{  
+  content:'Ja';
+}
+
+/*--------- END --------*/
