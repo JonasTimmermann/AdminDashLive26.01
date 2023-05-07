@@ -24,7 +24,7 @@
     "bootstrap": "^4.4.1",
     "bootswatch": "^4.3.1",
     "firebase": "^7.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ng-bootstrap": "^1.6.3",
     "node-gyp": "^6.0.1",
     "rebuild": "^0.1.2",
